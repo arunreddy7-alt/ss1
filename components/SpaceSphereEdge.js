@@ -1,4 +1,4 @@
-// SpaceSphereEdge.js
+"use client";
 import React from "react";
 import {
   FaStar,
@@ -87,6 +87,35 @@ export default function SpaceSphereEdge() {
         .lux-card > div:first-child {
           transition: transform 0.4s ease;
         }
+        /* Mobile typography + heading color */
+@media (max-width: 768px) {
+
+  /* Make heading black on mobile */
+  .about-hero-title {
+    color: #000000 !important;
+    font-size: 32px !important;
+  }
+
+  .office-subheading5 {
+    color: #000000 !important;
+    font-size: 16px !important;
+    letter-spacing: 1;
+  }
+
+  /* Change paragraph font inside cards */
+  .lux-card p {
+    font-family: "Playfair Display", serif;
+    font-size: 17px;
+    color: #444;
+    line-height: 1.6;
+  }
+
+  /* Slightly adjust titles for better balance */
+  .lux-card h3 {
+    font-size: 18px;
+  }
+}
+
 
         @media (orientation: landscape) {
           .lux-card {
@@ -109,23 +138,18 @@ export default function SpaceSphereEdge() {
           50% { transform: translateY(-18px) rotateX(8deg) rotateY(10deg); }
           100% { transform: translateY(0px) rotateX(0deg) rotateY(0deg); }
         }
-          /* Mobile fix for 4th & 5th cards */
 @media (max-width: 768px) {
   .rowCenter {
     flex-wrap: wrap;
     gap: 40px;
   }
 
-  .rowCenter .lux-card {
-    width: 90% !important;
-    max-width: 320px;
-    height: auto !important;
-  }
-
+  .rowCenter .lux-card,
   .row .lux-card {
-    width: 90% !important;
-    max-width: 320px;
+    width: 95% !important;      /* little wider */
+    max-width: 360px;           /* slightly bigger box */
     height: auto !important;
+    padding: 28px 30px !important; /* little more space inside */
   }
 }
 
