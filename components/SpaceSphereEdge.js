@@ -129,8 +129,8 @@ export default function SpaceSphereEdge() {
         @media (orientation: landscape) {
           .lux-card {
             width: 380px;
-            height: 190px;
-            padding: 26px 34px;
+            height: 165px;
+            padding: 20px 28px;
           }
         }
 
@@ -164,6 +164,28 @@ export default function SpaceSphereEdge() {
     width: 90% !important;
     max-width: 320px;
     height: auto !important;
+  }
+}
+@media (max-width: 768px) {
+
+  /* Main heading bigger */
+  .about-hero-title {
+    font-size: 29px !important;
+    line-height: 1.15;
+  }
+
+  /* Sub heading bigger */
+  .office-subheading5 {
+    font-size: 13px !important;
+    letter-spacing: 1.4px;
+  }
+
+  /* Boxes a little wider on mobile */
+  .rowCenter .lux-card,
+  .row .lux-card {
+    width: 100% !important;      /* slightly wider */
+    max-width: 400px;          /* increase box size */
+    padding: 32px 34px !important;
   }
 }
 
