@@ -121,7 +121,7 @@ export default function SpaceSphereEdge() {
           .lux-card {
             width: 380px;
             height: 190px;
-            padding: 26px 34px;
+            padding: 26px 35px;
           }
         }
 
