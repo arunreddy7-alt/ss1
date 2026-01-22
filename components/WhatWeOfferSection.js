@@ -114,44 +114,24 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
 
           {/* Timeline Process Flow */}
           <div style={{ position: "relative", marginTop: "50px" }}>
-            {/* Central Timeline Line - Dynamic Background */}
-            <div
-              style={{
-                position: "absolute",
-                left: "50%",
-                top: "0",
-                bottom: "0",
-                width: "4px",
-                background:
-                  "linear-gradient(180deg, rgba(199, 154, 74, 0.2) 0%, rgba(212, 175, 106, 0.15) 50%, rgba(199, 154, 74, 0.2) 100%)",
-                transform: "translateX(-50%)",
-                borderRadius: "2px",
-                zIndex: 1,
-                boxShadow:
-                  "0 0 10px rgba(199, 154, 74, 0.1)",
-              }}
-            ></div>
-
-            {/* Central Timeline Line - Dynamic Filled Portion */}
-            <div
+            {/* Central Timeline Line - Static */}
+<div
   style={{
     position: "absolute",
     left: "50%",
     top: "0",
+    bottom: "0",
     width: "4px",
-    height: "100%",
     background:
-      "linear-gradient(180deg, rgba(199,154,74,0.8) 0%, rgba(212,175,106,0.9) 50%, rgba(199,154,74,0.8) 100%)",
-    transform: `translateX(-50%) scaleY(${timelineScrollProgress})`,
-    transformOrigin: "top",
+      "linear-gradient(180deg, rgba(199, 154, 74, 0.2) 0%, rgba(212, 175, 106, 0.15) 50%, rgba(199, 154, 74, 0.2) 100%)",
+    transform: "translateX(-50%)",
     borderRadius: "2px",
-    zIndex: 2,
-    willChange: "transform",
+    zIndex: 1,
+    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
   }}
->
+></div>
 
 
-            </div>
 
             {/* Step 1 - Discovery Consultation */}
             <div
@@ -179,8 +159,9 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                       "linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%)",
                     padding: "35px 20px",
                     borderRadius: "16px",
-                    boxShadow:
-                     "0 10px 25px rgba(0,0,0,0.25)",
+                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
+                    willChange: "transform",
+
                     border:
                       "1px solid rgba(199, 154, 74, 0.3)",
                     maxWidth: "350px",
@@ -188,7 +169,8 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     transform: "translateX(0)",
                     transition:
                       "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                      animation: "pulse 2s ease-in-out infinite",
+                      transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                      
                     }}
                 >
                   <h3
@@ -226,8 +208,8 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     "linear-gradient(135deg, #c79a4a, #d4af6a)",
                   borderRadius: "50%",
                   border: "3px solid #1a1a1a",
-                  boxShadow:
-                      "0 10px 25px rgba(0,0,0,0.25)",
+                  boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
+
                   zIndex: 3,
                 }}
               ></div>
@@ -244,8 +226,9 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     height: "180px",
                     borderRadius: "16px",
                     overflow: "hidden",
-                    boxShadow:
-                      "0 15px 35px rgba(0, 0, 0, 0.4)",
+                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
+                    willChange: "transform",
+
                     border:
                       "2px solid rgba(199, 154, 74, 0.4)",
                     margin: "0 auto",
@@ -261,8 +244,7 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                       width: "100%",
                       height: "100%",
                       objectFit: "cover",
-                      filter:
-                        "brightness(1.05) contrast(1.05) saturate(1.1)",
+                     
                     }}
                   />
                 </div>
@@ -293,7 +275,9 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     height: "180px",
                     borderRadius: "16px",
                     overflow: "hidden",
-                    boxShadow: "0 15px 35px rgba(0, 0, 0, 0.4)",
+                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
+                    willChange: "transform",
+
                     border: "2px solid rgba(199, 154, 74, 0.4)",
                     margin: "0 auto",
                     position: "relative",
@@ -308,8 +292,7 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                       width: "100%",
                       height: "100%",
                       objectFit: "cover",
-                      filter:
-                        "brightness(1.05) contrast(1.05) saturate(1.1)",
+                     
                     }}
                   />
                 </div>
@@ -324,8 +307,8 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     "linear-gradient(135deg, #c79a4a, #d4af6a)",
                   borderRadius: "50%",
                   border: "3px solid #1a1a1a",
-                  boxShadow:
-                   "0 10px 25px rgba(0,0,0,0.25)",
+                  boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
+
                   zIndex: 3,
                 }}
               ></div>
@@ -344,8 +327,9 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                       "linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%)",
                     padding: "35px 20px",
                     borderRadius: "16px",
-                    boxShadow:
-                      "0 10px 25px rgba(0,0,0,0.25)",
+                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
+                    willChange: "transform",
+
                     border:
                       "1px solid rgba(199, 154, 74, 0.3)",
                     maxWidth: "350px",
@@ -353,7 +337,8 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     transform: "translateX(0)",
                     transition:
                       "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                      animation: "pulse 2s ease-in-out infinite"
+                      transition: "transform 0.3s ease, box-shadow 0.3s ease",
+
                     }}
                 >
                   <h3
@@ -408,8 +393,9 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                       "linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%)",
                     padding: "35px 20px",
                     borderRadius: "16px",
-                    boxShadow:
-                    "0 10px 25px rgba(0,0,0,0.25)",
+                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
+                    willChange: "transform",
+
                     border:
                       "1px solid rgba(199, 154, 74, 0.3)",
                     maxWidth: "350px",
@@ -417,7 +403,8 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     transform: "translateX(0)",
                     transition:
                       "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                      animation: "pulse 2s ease-in-out infinite"
+                      transition: "transform 0.3s ease, box-shadow 0.3s ease",
+
                     }}
                 >
                   <h3
@@ -454,8 +441,7 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     "linear-gradient(135deg, #c79a4a, #d4af6a)",
                   borderRadius: "50%",
                   border: "3px solid #1a1a1a",
-                  boxShadow:
-                    "0 10px 25px rgba(0,0,0,0.25)",
+                  boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
                   zIndex: 3,
                 }}
               ></div>
@@ -472,8 +458,9 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     height: "180px",
                     borderRadius: "16px",
                     overflow: "hidden",
-                    boxShadow:
-                      "0 15px 35px rgba(0, 0, 0, 0.4)",
+                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
+                    willChange: "transform",
+
                     border:
                       "2px solid rgba(199, 154, 74, 0.4)",
                     margin: "0 auto",
@@ -489,8 +476,7 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                       width: "100%",
                       height: "100%",
                       objectFit: "cover",
-                      filter:
-                        "brightness(1.05) contrast(1.05) saturate(1.1)",
+                      
                     }}
                   />
                 </div>
@@ -521,8 +507,9 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     height: "180px",
                     borderRadius: "16px",
                     overflow: "hidden",
-                    boxShadow:
-                      "0 15px 35px rgba(0, 0, 0, 0.4)",
+                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
+                    willChange: "transform",
+
                     border:
                       "2px solid rgba(199, 154, 74, 0.4)",
                     margin: "0 auto",
@@ -538,8 +525,7 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                       width: "100%",
                       height: "100%",
                       objectFit: "cover",
-                      filter:
-                        "brightness(1.05) contrast(1.05) saturate(1.1)",
+                     
                     }}
                   />
                 </div>
@@ -554,8 +540,8 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     "linear-gradient(135deg, #c79a4a, #d4af6a)",
                   borderRadius: "50%",
                   border: "3px solid #1a1a1a",
-                  boxShadow:
-                   "0 10px 25px rgba(0,0,0,0.25)",
+                  boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
+
                   zIndex: 3,
                 }}
               ></div>
@@ -574,8 +560,7 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                       "linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%)",
                     padding: "35px 20px",
                     borderRadius: "16px",
-                    boxShadow:
-                      "0 10px 25px rgba(0,0,0,0.25)",
+                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
                     border:
                       "1px solid rgba(199, 154, 74, 0.3)",
                     maxWidth: "350px",
@@ -583,7 +568,9 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     transform: "translateX(0)",
                     transition:
                       "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                      animation: "pulse 2s ease-in-out infinite"
+                      transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                      willChange: "transform",
+
                     }}
                 >
                   <h3
@@ -638,8 +625,9 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                       "linear-gradient(135deg, rgba(199, 154, 74, 0.1), rgba(199, 154, 74, 0.05))",
                     padding: "35px 20px",
                     borderRadius: "16px",
-                    boxShadow:
-                      "0 15px 35px rgba(0, 0, 0, 0.4)",
+                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
+                    willChange: "transform",
+
                     border:
                       "1px solid rgba(199, 154, 74, 0.4)",
                     maxWidth: "350px",
@@ -683,8 +671,8 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     "linear-gradient(135deg, #c79a4a, #d4af6a)",
                   borderRadius: "50%",
                   border: "3px solid #1a1a1a",
-                  boxShadow:
-                    "0 10px 25px rgba(0,0,0,0.25)",
+                  boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
+
                   zIndex: 3,
                 }}
               ></div>
@@ -701,8 +689,9 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     height: "180px",
                     borderRadius: "16px",
                     overflow: "hidden",
-                    boxShadow:
-                      "0 15px 35px rgba(0, 0, 0, 0.4)",
+                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
+                    willChange: "transform",
+
                     border:
                       "2px solid rgba(199, 154, 74, 0.4)",
                     margin: "0 auto",
@@ -718,8 +707,7 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                       width: "100%",
                       height: "100%",
                       objectFit: "cover",
-                      filter:
-                        "brightness(1.05) contrast(1.05) saturate(1.1)",
+                     
                     }}
                   />
                 </div>
@@ -750,11 +738,11 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                   background:
                     "linear-gradient(135deg, #c79a4a 0%, #d4af6a 100%)",
                   borderRadius: "16px",
-                  boxShadow:
-                   "0 10px 25px rgba(0,0,0,0.25)",
+                  boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
+
                   border:
                     "2px solid rgba(255, 255, 255, 0.25)",
-                    backdropFilter: "blur(10px)",
+                    background: "rgba(199,154,74,0.9)",
                   }}
               >
                 <h3
@@ -783,12 +771,12 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                   background:
                     "linear-gradient(135deg, #c79a4a 0%, #d4af6a 100%)",
                   borderRadius: "16px",
-                  boxShadow:
-                  "0 10px 25px rgba(0,0,0,0.25)",
+                  boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
+
                       border:
                     "2px solid rgba(255, 255, 255, 0.25)",
-                  backdropFilter: "blur(10px)",
-                }}
+                    background: "rgba(199,154,74,0.9)",
+                  }}
               >
                 <h3
                   style={{
