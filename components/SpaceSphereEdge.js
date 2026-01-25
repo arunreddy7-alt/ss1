@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   FaStar,
@@ -86,51 +87,12 @@ export default function SpaceSphereEdge() {
         .lux-card > div:first-child {
           transition: transform 0.4s ease;
         }
-/* Desktop: make box text more premium */
-.lux-card h3 {
-  font-family: "Playfair Display", serif;
-  font-size: 21px;
-  font-weight: 600;
-}
-
-.lux-card p {
-  font-family: "Playfair Display", serif;
-  font-size: 15.5px;
-  color: #555;
-  line-height: 1.6;
-}
-
-
-/* Mobile: bigger boxes + bigger text */
-@media (max-width: 768px) {
-
-  /* Make the boxes a little bigger */
-  .rowCenter .lux-card,
-  .row .lux-card {
-    width: 95% !important;
-    max-width: 380px;
-    padding: 30px 32px !important;
-    height: auto !important;
-  }
-
-  /* Bigger heading inside box */
-  .lux-card h3 {
-    font-size: 20px !important;
-    color: #000000 !important;
-  }
-
-  /* Bigger paragraph text */
-  .lux-card p {
-    font-size: 15px !important;
-    line-height: 1.7;
-  }
-}
 
         @media (orientation: landscape) {
           .lux-card {
             width: 380px;
-            height: 165px;
-            padding: 20px 28px;
+            height: 190px;
+            padding: 26px 34px;
           }
         }
 
@@ -164,28 +126,6 @@ export default function SpaceSphereEdge() {
     width: 90% !important;
     max-width: 320px;
     height: auto !important;
-  }
-}
-@media (max-width: 768px) {
-
-  /* Main heading bigger */
-  .about-hero-title {
-    font-size: 29px !important;
-    line-height: 1.15;
-  }
-
-  /* Sub heading bigger */
-  .office-subheading5 {
-    font-size: 13px !important;
-    letter-spacing: 1.4px;
-  }
-
-  /* Boxes a little wider on mobile */
-  .rowCenter .lux-card,
-  .row .lux-card {
-    width: 100% !important;      /* slightly wider */
-    max-width: 400px;          /* increase box size */
-    padding: 32px 34px !important;
   }
 }
 
@@ -329,3 +269,4 @@ const styles = {
     textAlign: "left",
   },
 };
+
