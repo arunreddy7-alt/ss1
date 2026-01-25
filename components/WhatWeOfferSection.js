@@ -1,29 +1,103 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 
-const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionRef, setIsModalOpen }) => {
+const WhatWeOfferSection = React.memo(({
+  isMobile,
+  setIsModalOpen
+}) => {
+  const sectionRef = React.useRef(null);
+  const lineRef = React.useRef(null);
+  const bannerRef = React.useRef(null);
+  const bannerBgRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const isMobileDevice = window.innerWidth < 768;
+
+      // 1. Timeline Fill Logic
+      if (sectionRef.current && lineRef.current) {
+        const sectionTop = sectionRef.current.offsetTop;
+        const sectionHeight = sectionRef.current.offsetHeight;
+        const scrolled = window.scrollY;
+        const windowHeight = window.innerHeight;
+
+        const startTrigger = sectionTop - windowHeight / 2;
+        const endTrigger = sectionTop + sectionHeight - windowHeight;
+
+        const scrollProgress = Math.max(0, Math.min(1, (scrolled - startTrigger) / (endTrigger - startTrigger)));
+
+        lineRef.current.style.height = `${scrollProgress * 100}%`;
+      }
+
+      // 2. Parallax Logic for Banner (Pseudo-Fixed) - Disabled on mobile
+      if (bannerRef.current && bannerBgRef.current && !isMobileDevice) {
+        const rect = bannerRef.current.getBoundingClientRect();
+        // Move bg opposite to the section's movement to keep it fixed in viewport
+        bannerBgRef.current.style.transform = `translateY(${-rect.top}px)`;
+      } else if (bannerBgRef.current && isMobileDevice) {
+        // Reset transform on mobile
+        bannerBgRef.current.style.transform = 'none';
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleScroll);
+
+    // Initial calculation to prevent jump
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, []);
+
   return (
     <>
       <section
+        ref={bannerRef}
         style={{
-          paddingTop: "80px",
-          paddingRight: "80px",
-          paddingBottom: "60px",
-          paddingLeft: "80px",
-          background:
-            "linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95))",
-          minHeight: "30vh",
-          backgroundImage: `url('/villa1.webp')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center center",
-          backgroundRepeat: "no-repeat",
-          backgroundAttachment: isMobile ? "scroll" : "fixed",
-          color: "#000000",
-          willChange: "transform",
+          paddingTop: isMobile ? "40px" : "80px",
+          paddingRight: isMobile ? "20px" : "80px",
+          paddingBottom: isMobile ? "40px" : "60px",
+          paddingLeft: isMobile ? "20px" : "80px",
+          minHeight: isMobile ? "50vh" : "40vh",
+          position: "relative",
+          overflow: "hidden",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
+        {/* Fixed Background Layer */}
+        <div
+          ref={bannerBgRef}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: isMobile ? "100%" : "100vh", // Full height on mobile, viewport height on desktop
+            zIndex: 0,
+            willChange: "transform",
+            pointerEvents: "none",
+          }}
+        >
+          <Image
+            src="/villa1.webp"
+            alt="Property Background"
+            fill
+            className="object-cover"
+            priority
+            style={{ objectFit: "cover" }}
+          />
+        </div>
+
         <div
           style={{
+            position: "relative",
+            zIndex: 1,
             maxWidth: "1000px",
             margin: "0 auto",
             padding: "0 24px",
@@ -45,7 +119,6 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                 "0 4px 30px rgba(0,0,0,0.6), 0 1px 0 rgba(0,0,0,0.3)",
               transition: "font-size 0.3s ease",
               whiteSpace: "normal",
-              transform: isMobile ? "translateY(-15px)" : "translateY(-16px)",
             }}
           >
             Connecting People With Properties That Matter.
@@ -55,7 +128,7 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
 
       <section
         id="what-we-offer"
-        ref={timelineSectionRef}
+        ref={sectionRef}
         className="what-we-offer"
         style={{
           padding: "80px 0",
@@ -114,24 +187,42 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
 
           {/* Timeline Process Flow */}
           <div style={{ position: "relative", marginTop: "50px" }}>
-            {/* Central Timeline Line - Static */}
-<div
-  style={{
-    position: "absolute",
-    left: "50%",
-    top: "0",
-    bottom: "0",
-    width: "4px",
-    background:
-      "linear-gradient(180deg, rgba(199, 154, 74, 0.2) 0%, rgba(212, 175, 106, 0.15) 50%, rgba(199, 154, 74, 0.2) 100%)",
-    transform: "translateX(-50%)",
-    borderRadius: "2px",
-    zIndex: 1,
-    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
-  }}
-></div>
+            {/* Central Timeline Line - Dynamic Background */}
+            <div
+              style={{
+                position: "absolute",
+                left: "50%",
+                top: "0",
+                bottom: "0",
+                width: "4px",
+                background:
+                  "linear-gradient(180deg, rgba(199, 154, 74, 0.2) 0%, rgba(212, 175, 106, 0.15) 50%, rgba(199, 154, 74, 0.2) 100%)",
+                transform: "translateX(-50%)",
+                borderRadius: "2px",
+                zIndex: 1,
+                boxShadow:
+                  "0 0 10px rgba(199, 154, 74, 0.1)",
+              }}
+            ></div>
 
-
+            {/* Central Timeline Line - Dynamic Fill Line */}
+            <div
+              ref={lineRef}
+              style={{
+                position: "absolute",
+                left: "50%",
+                top: "0",
+                width: "4px",
+                height: "0%", // Controlled by JS
+                background:
+                  "linear-gradient(180deg, rgba(199, 154, 74, 0.8) 0%, rgba(212, 175, 106, 0.9) 50%, rgba(199, 154, 74, 0.8) 100%)",
+                transform: "translateX(-50%)",
+                borderRadius: "2px",
+                zIndex: 2,
+                boxShadow: "0 0 12px rgba(199, 154, 74, 0.3)",
+                transition: "height 0.1s linear", // Smooth out tiny jitter
+              }}
+            />
 
             {/* Step 1 - Discovery Consultation */}
             <div
@@ -159,9 +250,8 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                       "linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%)",
                     padding: "35px 20px",
                     borderRadius: "16px",
-                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
-                    willChange: "transform",
-
+                    boxShadow:
+                      "0 15px 35px rgba(0, 0, 0, 0.3), 0 5px 15px rgba(199, 154, 74, 0.15)",
                     border:
                       "1px solid rgba(199, 154, 74, 0.3)",
                     maxWidth: "350px",
@@ -169,9 +259,7 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     transform: "translateX(0)",
                     transition:
                       "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                      transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                      
-                    }}
+                  }}
                 >
                   <h3
                     style={{
@@ -208,8 +296,8 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     "linear-gradient(135deg, #c79a4a, #d4af6a)",
                   borderRadius: "50%",
                   border: "3px solid #1a1a1a",
-                  boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
-
+                  boxShadow:
+                    "0 0 15px rgba(199, 154, 74, 0.5), 0 0 25px rgba(199, 154, 74, 0.3)",
                   zIndex: 3,
                 }}
               ></div>
@@ -226,9 +314,8 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     height: "180px",
                     borderRadius: "16px",
                     overflow: "hidden",
-                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
-                    willChange: "transform",
-
+                    boxShadow:
+                      "0 15px 35px rgba(0, 0, 0, 0.4)",
                     border:
                       "2px solid rgba(199, 154, 74, 0.4)",
                     margin: "0 auto",
@@ -237,14 +324,15 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                       "linear-gradient(135deg, rgba(199, 154, 74, 0.1), rgba(199, 154, 74, 0.05))",
                   }}
                 >
-                  <img
+                  <Image
                     src="/1.webp"
                     alt="Consultation Meeting"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 350px"
                     style={{
-                      width: "100%",
-                      height: "100%",
                       objectFit: "cover",
-                     
+                      filter:
+                        "brightness(1.05) contrast(1.05) saturate(1.1)",
                     }}
                   />
                 </div>
@@ -275,9 +363,7 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     height: "180px",
                     borderRadius: "16px",
                     overflow: "hidden",
-                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
-                    willChange: "transform",
-
+                    boxShadow: "0 15px 35px rgba(0, 0, 0, 0.4)",
                     border: "2px solid rgba(199, 154, 74, 0.4)",
                     margin: "0 auto",
                     position: "relative",
@@ -285,14 +371,15 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                       "linear-gradient(135deg, rgba(199, 154, 74, 0.1), rgba(199, 154, 74, 0.05))",
                   }}
                 >
-                  <img
+                  <Image
                     src="/2.webp"
                     alt="Premium Villa Properties"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 350px"
                     style={{
-                      width: "100%",
-                      height: "100%",
                       objectFit: "cover",
-                     
+                      filter:
+                        "brightness(1.05) contrast(1.05) saturate(1.1)",
                     }}
                   />
                 </div>
@@ -307,8 +394,8 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     "linear-gradient(135deg, #c79a4a, #d4af6a)",
                   borderRadius: "50%",
                   border: "3px solid #1a1a1a",
-                  boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
-
+                  boxShadow:
+                    "0 0 15px rgba(199, 154, 74, 0.5), 0 0 25px rgba(199, 154, 74, 0.3)",
                   zIndex: 3,
                 }}
               ></div>
@@ -327,9 +414,8 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                       "linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%)",
                     padding: "35px 20px",
                     borderRadius: "16px",
-                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
-                    willChange: "transform",
-
+                    boxShadow:
+                      "0 15px 35px rgba(0, 0, 0, 0.3), 0 5px 15px rgba(199, 154, 74, 0.15)",
                     border:
                       "1px solid rgba(199, 154, 74, 0.3)",
                     maxWidth: "350px",
@@ -337,9 +423,7 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     transform: "translateX(0)",
                     transition:
                       "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                      transition: "transform 0.3s ease, box-shadow 0.3s ease",
-
-                    }}
+                  }}
                 >
                   <h3
                     style={{
@@ -393,9 +477,8 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                       "linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%)",
                     padding: "35px 20px",
                     borderRadius: "16px",
-                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
-                    willChange: "transform",
-
+                    boxShadow:
+                      "0 15px 35px rgba(0, 0, 0, 0.3), 0 5px 15px rgba(199, 154, 74, 0.15)",
                     border:
                       "1px solid rgba(199, 154, 74, 0.3)",
                     maxWidth: "350px",
@@ -403,9 +486,7 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     transform: "translateX(0)",
                     transition:
                       "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                      transition: "transform 0.3s ease, box-shadow 0.3s ease",
-
-                    }}
+                  }}
                 >
                   <h3
                     style={{
@@ -441,7 +522,8 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     "linear-gradient(135deg, #c79a4a, #d4af6a)",
                   borderRadius: "50%",
                   border: "3px solid #1a1a1a",
-                  boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
+                  boxShadow:
+                    "0 0 15px rgba(199, 154, 74, 0.5), 0 0 25px rgba(199, 154, 74, 0.3)",
                   zIndex: 3,
                 }}
               ></div>
@@ -458,9 +540,8 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     height: "180px",
                     borderRadius: "16px",
                     overflow: "hidden",
-                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
-                    willChange: "transform",
-
+                    boxShadow:
+                      "0 15px 35px rgba(0, 0, 0, 0.4)",
                     border:
                       "2px solid rgba(199, 154, 74, 0.4)",
                     margin: "0 auto",
@@ -469,14 +550,15 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                       "linear-gradient(135deg, rgba(199, 154, 74, 0.1), rgba(199, 154, 74, 0.05))",
                   }}
                 >
-                  <img
+                  <Image
                     src="/3.webp"
                     alt="Luxury Apartment Tour"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 350px"
                     style={{
-                      width: "100%",
-                      height: "100%",
                       objectFit: "cover",
-                      
+                      filter:
+                        "brightness(1.05) contrast(1.05) saturate(1.1)",
                     }}
                   />
                 </div>
@@ -507,9 +589,8 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     height: "180px",
                     borderRadius: "16px",
                     overflow: "hidden",
-                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
-                    willChange: "transform",
-
+                    boxShadow:
+                      "0 15px 35px rgba(0, 0, 0, 0.4)",
                     border:
                       "2px solid rgba(199, 154, 74, 0.4)",
                     margin: "0 auto",
@@ -518,14 +599,15 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                       "linear-gradient(135deg, rgba(199, 154, 74, 0.1), rgba(199, 154, 74, 0.05))",
                   }}
                 >
-                  <img
+                  <Image
                     src="/4.webp"
                     alt="Commercial Property Negotiation"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 350px"
                     style={{
-                      width: "100%",
-                      height: "100%",
                       objectFit: "cover",
-                     
+                      filter:
+                        "brightness(1.05) contrast(1.05) saturate(1.1)",
                     }}
                   />
                 </div>
@@ -540,8 +622,8 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     "linear-gradient(135deg, #c79a4a, #d4af6a)",
                   borderRadius: "50%",
                   border: "3px solid #1a1a1a",
-                  boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
-
+                  boxShadow:
+                    "0 0 15px rgba(199, 154, 74, 0.5), 0 0 25px rgba(199, 154, 74, 0.3)",
                   zIndex: 3,
                 }}
               ></div>
@@ -560,7 +642,8 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                       "linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%)",
                     padding: "35px 20px",
                     borderRadius: "16px",
-                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
+                    boxShadow:
+                      "0 15px 35px rgba(0, 0, 0, 0.3), 0 5px 15px rgba(199, 154, 74, 0.15)",
                     border:
                       "1px solid rgba(199, 154, 74, 0.3)",
                     maxWidth: "350px",
@@ -568,10 +651,7 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     transform: "translateX(0)",
                     transition:
                       "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                      transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                      willChange: "transform",
-
-                    }}
+                  }}
                 >
                   <h3
                     style={{
@@ -625,9 +705,8 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                       "linear-gradient(135deg, rgba(199, 154, 74, 0.1), rgba(199, 154, 74, 0.05))",
                     padding: "35px 20px",
                     borderRadius: "16px",
-                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
-                    willChange: "transform",
-
+                    boxShadow:
+                      "0 15px 35px rgba(0, 0, 0, 0.4)",
                     border:
                       "1px solid rgba(199, 154, 74, 0.4)",
                     maxWidth: "350px",
@@ -671,9 +750,10 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     "linear-gradient(135deg, #c79a4a, #d4af6a)",
                   borderRadius: "50%",
                   border: "3px solid #1a1a1a",
-                  boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
-
+                  boxShadow:
+                    "0 0 20px rgba(199, 154, 74, 0.6), 0 0 30px rgba(199, 154, 74, 0.4)",
                   zIndex: 3,
+                  animation: "pulse 2s ease-in-out infinite",
                 }}
               ></div>
 
@@ -689,9 +769,8 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                     height: "180px",
                     borderRadius: "16px",
                     overflow: "hidden",
-                    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
-                    willChange: "transform",
-
+                    boxShadow:
+                      "0 15px 35px rgba(0, 0, 0, 0.4)",
                     border:
                       "2px solid rgba(199, 154, 74, 0.4)",
                     margin: "0 auto",
@@ -700,14 +779,15 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                       "linear-gradient(135deg, rgba(199, 154, 74, 0.1), rgba(199, 154, 74, 0.05))",
                   }}
                 >
-                  <img
+                  <Image
                     src="/5.webp"
                     alt="Property Handover & Keys"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 350px"
                     style={{
-                      width: "100%",
-                      height: "100%",
                       objectFit: "cover",
-                     
+                      filter:
+                        "brightness(1.05) contrast(1.05) saturate(1.1)",
                     }}
                   />
                 </div>
@@ -738,12 +818,11 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                   background:
                     "linear-gradient(135deg, #c79a4a 0%, #d4af6a 100%)",
                   borderRadius: "16px",
-                  boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
-
+                  boxShadow:
+                    "0 20px 40px rgba(199, 154, 74, 0.4), 0 10px 25px rgba(199, 154, 74, 0.3), 0 0 30px rgba(199, 154, 74, 0.2)",
                   border:
                     "2px solid rgba(255, 255, 255, 0.25)",
-                    background: "rgba(199,154,74,0.9)",
-                  }}
+                }}
               >
                 <h3
                   style={{
@@ -771,12 +850,11 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
                   background:
                     "linear-gradient(135deg, #c79a4a 0%, #d4af6a 100%)",
                   borderRadius: "16px",
-                  boxShadow: "0 8px 20px rgba(0, 0, 0, 0.25)",
-
-                      border:
+                  boxShadow:
+                    "0 20px 40px rgba(199, 154, 74, 0.4), 0 10px 25px rgba(199, 154, 74, 0.3), 0 0 30px rgba(199, 154, 74, 0.2)",
+                  border:
                     "2px solid rgba(255, 255, 255, 0.25)",
-                    background: "rgba(199,154,74,0.9)",
-                  }}
+                }}
               >
                 <h3
                   style={{
@@ -816,6 +894,6 @@ const WhatWeOfferSection = ({ isMobile, timelineScrollProgress, timelineSectionR
       </section>
     </>
   );
-};
+});
 
 export default WhatWeOfferSection;
