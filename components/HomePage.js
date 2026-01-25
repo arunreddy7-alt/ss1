@@ -359,13 +359,25 @@ export default function HomePage() {
 
   // Parallax effect for contact section background
   useEffect(() => {
+    // Disable parallax on mobile devices for better performance
+    const isMobileDevice = window.innerWidth < 768;
+
+    if (isMobileDevice) {
+      // Reset any parallax transforms on mobile
+      const parallaxElements = document.querySelectorAll(".parallax-bg");
+      parallaxElements.forEach((element) => {
+        element.style.transform = "none";
+      });
+      return;
+    }
+
     const handleParallaxScroll = () => {
       const scrolled = window.pageYOffset;
       const parallaxElements =
         document.querySelectorAll(".parallax-bg");
 
       parallaxElements.forEach((element) => {
-        const speed = 0.5;
+        const speed = 0.3; // Reduced from 0.5 for smoother effect
         const yPos = -(scrolled * speed);
         element.style.transform = `translate3d(0, ${yPos}px, 0)`;
       });
@@ -501,4 +513,3 @@ export default function HomePage() {
     </main>
   );
 }
-
