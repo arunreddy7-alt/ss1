@@ -137,8 +137,7 @@ const WhatWeOfferSection = React.memo(({
           position: "relative",
           overflow: "hidden",
           background: "#1a1a1a",
-         marginTop: window.innerWidth >= 1024 ? "-40px" : "-144px", // desktop only
- //marginTop: isDesktop ? "-40px" : "-144px",
+         marginTop: marginTop,
         }}
       >
         {/* Background Decorative Elements */}
