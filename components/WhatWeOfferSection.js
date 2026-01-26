@@ -10,10 +10,12 @@ const WhatWeOfferSection = React.memo(({
   const lineRef = React.useRef(null);
   const bannerRef = React.useRef(null);
   const bannerBgRef = React.useRef(null);
+  const [marginTop, setMarginTop] = React.useState("-144px");
 
   React.useEffect(() => {
     const handleScroll = () => {
       const isMobileDevice = window.innerWidth < 768;
+      setMarginTop(window.innerWidth >= 1024 ? "-40px" : "-144px");
 
       // 1. Timeline Fill Logic
       if (sectionRef.current && lineRef.current) {
@@ -135,8 +137,8 @@ const WhatWeOfferSection = React.memo(({
           position: "relative",
           overflow: "hidden",
           background: "#1a1a1a",
-          marginTop: window.innerWidth >= 1024 ? "-40px" : "-144px", // desktop only
-
+         marginTop: window.innerWidth >= 1024 ? "-40px" : "-144px", // desktop only
+ //marginTop: isDesktop ? "-40px" : "-144px",
         }}
       >
         {/* Background Decorative Elements */}
